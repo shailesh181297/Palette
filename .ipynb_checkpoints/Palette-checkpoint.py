@@ -76,3 +76,4 @@ if uploaded_face is not None:
             data=output_image_bytes,
             file_name="updated_palette.png",
             mime="image/png"
+            )
