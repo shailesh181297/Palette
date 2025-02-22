@@ -71,5 +71,8 @@ if uploaded_face is not None:
         if output_image_path:
             st.image(output_image_path, caption="Updated Palette", use_column_width=True)
 
-            # Provide a link to download the generated image
-            st.markdown(f"[Download the updated palette](sandbox/{output_image_path})")
+           st.download_button(
+            label="Download the updated palette",
+            data=output_image_bytes,
+            file_name="updated_palette.png",
+            mime="image/png"
