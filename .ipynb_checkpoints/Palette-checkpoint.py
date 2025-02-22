@@ -43,11 +43,12 @@ def changeface(face_image):
                 # Paste the new face with transparency using the image as its own mask
                 palette_image.paste(new_face_image_resized, (left, top), new_face_image_resized)
     
-    # Save the updated palette image with high resolution (300 DPI)
-    output_image_path = f'/tmp/Palette_{os.path.basename(face_image)}'
-    palette_image.save(output_image_path, dpi=(300, 300))  # Save with HD quality (300 DPI)
+    # Save the updated palette image into a BytesIO object to avoid saving it to disk
+    img_bytes = BytesIO()
+    palette_image.save(img_bytes, format="PNG", dpi=(300, 300))  # Save in PNG format with HD quality
+    img_bytes.seek(0)  # Reset the stream position to the beginning
 
-    return output_image_path
+    return img_bytes
 
 
 # Streamlit UI
@@ -58,22 +59,19 @@ uploaded_face = st.file_uploader("Upload your face image", type=["png", "jpg", "
 
 # If face is uploaded, update the grid
 if uploaded_face is not None:
-    # Save the uploaded face image to a temporary file
-    face_image_path = f"/tmp/{uploaded_face.name}"
-    with open(face_image_path, "wb") as f:
-        f.write(uploaded_face.getbuffer())
-    
-    st.image(face_image_path, caption="Uploaded Face Image", use_column_width=True)
+    # Display the uploaded face image
+    st.image(uploaded_face, caption="Uploaded Face Image", use_column_width=True)
     
     # Change face and generate the new palette image
     if st.button("Generate Palette"):
-        output_image_path = changeface(face_image_path)
-        if output_image_path:
-            st.image(output_image_path, caption="Updated Palette", use_column_width=True)
-
-           st.download_button(
-            label="Download the updated palette",
-            data=output_image_bytes,
-            file_name="updated_palette.png",
-            mime="image/png"
+        output_image_bytes = changeface(uploaded_face)
+        if output_image_bytes:
+            st.image(output_image_bytes, caption="Updated Palette", use_column_width=True)
+            
+            # Provide a link to download the generated image
+            st.download_button(
+                label="Download the updated palette",
+                data=output_image_bytes,
+                file_name="updated_palette.png",
+                mime="image/png"
             )
