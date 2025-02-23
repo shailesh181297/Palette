@@ -18,9 +18,12 @@ def changeface(face_image):
     square_size = (800, 800)  # Width, height of each square (adjust based on your palette)
     face_width, face_height = new_face_image.size
 
-    # Resize the face image to fit within the square, maintaining the aspect ratio
-    ratio = min(square_size[0] / face_width, square_size[1] / face_height)
-    new_face_image_resized = new_face_image.resize((int(face_width * ratio), int(face_height * ratio)), Image.Resampling.LANCZOS)
+    target_height = square_size[1] - 131 - 131  # Total height minus top and bottom gaps
+    ratio = target_height / face_height  # Aspect ratio to maintain the face's proportions
+    target_width = int(face_width * ratio)
+    
+    # Resize the face image with the calculated width and height
+    new_face_image_resized = new_face_image.resize((target_width, target_height), Image.Resampling.LANCZOS)
     face_width, face_height = new_face_image_resized.size  # Update the size after resizing
     
     palette_width, palette_height = palette_image.size
