@@ -18,10 +18,14 @@ def changeface(face_image):
     # Define the size of each square in the palette (assuming all squares are the same size)
     square_size = (800, 800)  # Width, height of each square (adjust based on your palette)
     face_width, face_height = new_face_image.size
+
+    new_face_image_resized = new_face_image.thumbnail((square_size[0], square_size[1]), Image.Resampling.LANCZOS)
+    face_width, face_height = new_face_image_resized.size  # Update the size after resizing
     
     palette_width, palette_height = palette_image.size
     
     # Resize the new face image to match the face size
+    
 
     rows = 9
     cols = 24
