@@ -38,7 +38,7 @@ def changeface(face_image):
             top = row * square_size[1] + gap_y  # Add vertical gap
             
             # Ensure that the face doesn't go beyond the palette boundaries
-            if left + face_size[0] <= palette_width and top + face_size[1] <= palette_height:
+            if left + face_width <= palette_width and top + face_height <= palette_height:
                 # Paste the new face with transparency using the image as its own mask
                 palette_image.paste(new_face_image_resized, (left, top), new_face_image_resized)
     
