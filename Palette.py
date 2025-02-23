@@ -22,7 +22,6 @@ def changeface(face_image):
     palette_width, palette_height = palette_image.size
     
     # Resize the new face image to match the face size
-    new_face_image_resized = new_face_image.resize(face_size, Image.Resampling.LANCZOS)
 
     rows = 9
     cols = 24
