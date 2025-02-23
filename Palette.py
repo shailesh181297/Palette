@@ -30,7 +30,7 @@ def changeface(face_image):
     
     # Define the horizontal and vertical gaps to center the face within each square
     gap_x = (square_size[0] - face_width) // 2  # Horizontal gap to center
-    gap_y = 131  # Vertical gap to start 131 pixels from the top
+    gap_y = (square_size[1] - face_height) // 2  # Vertical gap to center
     
     # Loop through each square in the palette and replace the face
     for row in range(rows):
