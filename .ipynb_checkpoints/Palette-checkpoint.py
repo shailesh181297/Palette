@@ -17,7 +17,15 @@ def changeface(face_image):
     
     # Define the size of each square in the palette (assuming all squares are the same size)
     square_size = (800, 800)  # Width, height of each square (adjust based on your palette)
-    face_size = (500, 500)  # Face size to fit in the squares
+
+ # Check if the face image size is 500x500 or 400x500
+    if face_width == 550 and face_height == 550:
+        face_size = (550, 550)  # Face size to fit in the squares (500x500)
+    elif face_width == 400 and face_height == 500:
+        face_size = (400, 500)  # Face size to fit in the squares (400x500)
+    else:
+        st.error("Unsupported face image size. Please upload a face image with dimensions 500x500 or 400x500.")
+        return None
     
     palette_width, palette_height = palette_image.size
     
