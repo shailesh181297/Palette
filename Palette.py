@@ -45,7 +45,7 @@ def changeface(face_image):
             if left + face_width <= palette_width and top + face_height <= palette_height:
                 # Paste the new face with transparency using the image as its own mask
                 paste_position = (left,top)
-                palette_image.paste(new_face_image, paste_position, new_face_image)
+                palette_image.paste(new_face_image_resized, paste_position, new_face_image_resized)
     
     # Save the updated palette image into a BytesIO object to avoid saving it to disk
     img_bytes = BytesIO()
