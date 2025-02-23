@@ -1,6 +1,5 @@
 import streamlit as st
 from PIL import Image
-import os
 from io import BytesIO
 
 def changeface(face_image):
@@ -19,32 +18,31 @@ def changeface(face_image):
     square_size = (800, 800)  # Width, height of each square (adjust based on your palette)
     face_width, face_height = new_face_image.size
 
-    new_face_image_resized = new_face_image.thumbnail((square_size[0], square_size[1]), Image.Resampling.LANCZOS)
+    # Resize the face image to fit within the square, maintaining the aspect ratio
+    ratio = min(square_size[0] / face_width, square_size[1] / face_height)
+    new_face_image_resized = new_face_image.resize((int(face_width * ratio), int(face_height * ratio)), Image.Resampling.LANCZOS)
     face_width, face_height = new_face_image_resized.size  # Update the size after resizing
     
     palette_width, palette_height = palette_image.size
     
-    # Resize the new face image to match the face size
-    
-
     rows = 9
     cols = 24
     
     # Define the horizontal and vertical gaps to center the face within each square
-    gap_x = (square_size[0] - face_width) // 2  # Horizontal gap
-    gap_y = 131  # Vertical gap
+    gap_x = (square_size[0] - face_width) // 2  # Horizontal gap to center
+    gap_y = 131  # Vertical gap to start 131 pixels from the top
     
     # Loop through each square in the palette and replace the face
     for row in range(rows):
         for col in range(cols):
             # Calculate the top-left corner of the current square
             left = col * square_size[0] + gap_x  # Add horizontal gap
-            top = row * square_size[1] + gap_y  # Add vertical gap
+            top = row * square_size[1] + gap_y  # Add fixed vertical gap (131 pixels from top)
             
             # Ensure that the face doesn't go beyond the palette boundaries
             if left + face_width <= palette_width and top + face_height <= palette_height:
                 # Paste the new face with transparency using the image as its own mask
-                paste_position = (left,top)
+                paste_position = (left, top)
                 palette_image.paste(new_face_image_resized, paste_position, new_face_image_resized)
     
     # Save the updated palette image into a BytesIO object to avoid saving it to disk
